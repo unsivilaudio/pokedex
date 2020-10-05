@@ -1,0 +1,16 @@
+.NavBar {
+    color: #ccc;
+    background: #333;
+    width: 100%;
+    margin-bottom: 2.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavBar .Brand {
+    font-size: 2.75rem;
+    font-weight: 300;
+    padding: 1.2rem 3rem;
+}

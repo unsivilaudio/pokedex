@@ -1,0 +1,20 @@
+.Pokedex {
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.Header {
+    color: #aaa;
+    font-weight: 300;
+    letter-spacing: 0.7rem;
+    margin-right: -0.7rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.CardList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}

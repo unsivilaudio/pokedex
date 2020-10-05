@@ -1,0 +1,47 @@
+.PokeCard {
+    flex-basis: 20%;
+    padding: 2rem;
+    margin: 2rem;
+    background: #ccc;
+    border-radius: 0.7rem;
+    box-shadow: 2px 2px 3px #aaa;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Selected {
+    box-shadow: 0 3px 10px 3px #83e470;
+}
+
+.Title {
+    color: blue;
+}
+
+.Icon {
+    position: relative;
+    height: 12rem;
+    margin: 0.7rem 0;
+    transition: transform 0.3s ease;
+}
+
+.Icon:hover {
+    transform: scale(1.2);
+    animation: wiggle 0.2s infinite alternate;
+}
+
+@keyframes wiggle {
+    to {
+        left: -1px;
+    }
+    from {
+        left: 1px;
+    }
+}
+
+.Stats {
+    line-height: 1.2;
+    text-align: center;
+}
