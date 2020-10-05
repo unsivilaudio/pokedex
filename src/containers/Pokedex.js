@@ -1,6 +1,8 @@
 import React from 'react';
 
+import Modal from '../components/ui/Modal';
 import PokeCard from '../components/Pokecard';
+import HeroList from '../components/HeroList';
 import classes from '../assets/stylesheets/pokedex.module.css';
 
 const pokeData = [
@@ -14,15 +16,23 @@ const pokeData = [
     { id: 133, name: 'Eevee', type: 'normal', base_experience: 65 },
 ];
 
+const BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail';
+
 class Pokedex extends React.Component {
     state = {
         heros: [],
+        modalShow: false,
         gameStart: false,
     };
 
     selectHero = async id => {
         if (this.state.heros.length < 4 && !this.state.gameStart) {
             await this.setState(prevState => prevState.heros.push(id));
+            if (this.state.heros.length === 4) {
+                this.setState(prevState => {
+                    return { ...prevState, modalShow: true };
+                });
+            }
             console.log(this.state);
         }
     };
@@ -34,8 +44,7 @@ class Pokedex extends React.Component {
                 .split('')
                 .splice(1)
                 .join('');
-            // const imgSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${el.id}.png`;
-            const imgSrc = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${imgId}.png`;
+            const imgSrc = `${BASE_URL}/${imgId}.png`;
             const isSelect = this.state.heros.includes(el.id);
             return (
                 <PokeCard
@@ -51,12 +60,38 @@ class Pokedex extends React.Component {
         });
     };
 
+    handleResetHero = e => {
+        this.setState(prevState => {
+            return { ...prevState, modalShow: false };
+        });
+        setTimeout(
+            () => this.setState(prevState => ({ ...prevState, heros: [] })),
+            500
+        );
+    };
+
     render() {
         return (
-            <div className={classes.Pokedex}>
-                <h1 className={classes.Header}>Choose your hero</h1>
-                <div className={classes.CardList}>{this.renderPokeList()}</div>
-            </div>
+            <>
+                <Modal
+                    show={this.state.modalShow}
+                    clicked={this.handleResetHero}>
+                    <HeroList
+                        data={pokeData}
+                        selected={this.state.heros}
+                        baseURL={BASE_URL}
+                        cancelled={this.handleResetHero}
+                        continued={null}
+                    />
+                </Modal>
+
+                <div className={classes.Pokedex}>
+                    <h1 className={classes.Header}>Choose your heroes</h1>
+                    <div className={classes.CardList}>
+                        {this.renderPokeList()}
+                    </div>
+                </div>
+            </>
         );
     }
 }
