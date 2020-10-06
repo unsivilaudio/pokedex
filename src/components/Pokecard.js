@@ -5,6 +5,7 @@ import classes from '../assets/stylesheets/pokecard.module.css';
 const pokeCard = props => {
     const styles = [classes.PokeCard];
     if (props.selected) styles.push(classes.Selected);
+    if (props.enemied) styles.push(classes.Opponent);
 
     return (
         <div className={styles.join(' ')} onClick={props.clicked}>

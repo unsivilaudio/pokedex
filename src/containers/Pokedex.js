@@ -21,20 +21,55 @@ const BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail';
 class Pokedex extends React.Component {
     state = {
         heros: [],
+        enemies: [],
         modalShow: false,
         gameStart: false,
     };
 
     selectHero = async id => {
-        if (this.state.heros.length < 4 && !this.state.gameStart) {
+        if (
+            this.state.heros.length < 4 &&
+            !this.state.gameStart &&
+            !this.state.heros.includes(id) &&
+            !this.state.enemies.includes(id)
+        ) {
             await this.setState(prevState => prevState.heros.push(id));
+            this.selectEnemies(this.randomRoll());
             if (this.state.heros.length === 4) {
                 this.setState(prevState => {
                     return { ...prevState, modalShow: true };
                 });
             }
-            console.log(this.state);
         }
+    };
+
+    selectEnemies = async id => {
+        if (
+            this.state.heros.length <= 4 &&
+            !this.state.heros.includes(id) &&
+            !this.state.enemies.includes(id)
+        ) {
+            await this.setState(prevState => {
+                const enemies = prevState.enemies.concat(id);
+                return { ...prevState, enemies };
+            });
+        } else {
+            this.selectEnemies(this.randomRoll());
+        }
+    };
+
+    randomRoll = () => {
+        const data = pokeData.filter(
+            el =>
+                !this.state.heros.includes(el.id) &&
+                !this.state.enemies.includes(el.id)
+        );
+        let roll = 0;
+        if (data.length > 1) {
+            roll = Math.floor(Math.random() * data.length);
+        }
+        const randomId = data[roll].id;
+        return randomId;
     };
 
     renderPokeList = () => {
@@ -49,6 +84,7 @@ class Pokedex extends React.Component {
             return (
                 <PokeCard
                     selected={isSelect}
+                    enemied={this.state.enemies.includes(el.id)}
                     clicked={() => this.selectHero(el.id)}
                     key={el.id}
                     title={el.name}
@@ -65,7 +101,12 @@ class Pokedex extends React.Component {
             return { ...prevState, modalShow: false };
         });
         setTimeout(
-            () => this.setState(prevState => ({ ...prevState, heros: [] })),
+            () =>
+                this.setState(prevState => ({
+                    ...prevState,
+                    heros: [],
+                    enemies: [],
+                })),
             500
         );
     };

@@ -36,7 +36,7 @@ const heroList = props => {
             <div className={classes.Content}>{renderSelectedHeros()}</div>
             <div className={classes.Actions}>
                 <Button btnStyle='danger' clicked={props.cancelled}>
-                    Cancel
+                    Reset
                 </Button>
                 <Button btnStyle='success' clicked={props.continued}>
                     Continue
