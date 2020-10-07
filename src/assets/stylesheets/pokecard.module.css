@@ -1,6 +1,6 @@
 .PokeCard {
     flex: 1 1 20%;
-    /* max-width: 20%; */
+    max-width: calc(50% - 2rem);
     padding: 1.2rem 2rem;
     margin: 1rem;
     background: #ccc;
@@ -47,7 +47,7 @@
     filter: grayscale(50);
 }
 
-.Disabled::after {
+.Opponent.Disabled::after {
     content: '';
     position: absolute;
     width: 100%;

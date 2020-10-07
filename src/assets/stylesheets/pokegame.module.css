@@ -26,6 +26,24 @@
     padding: 0.7rem 1.5rem;
 }
 
+.Heroes > h3,
+.Enemies > h3 {
+    position: relative;
+    text-transform: uppercase;
+}
+
+.Heroes > h3 span,
+.Enemies > h3 span {
+    position: absolute;
+    background: #aaa;
+    color: #eee;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+    margin-left: 0.7rem;
+    padding: 0.3rem 1.2rem;
+    border-radius: 1rem;
+}
+
 .Heroes {
     flex: 2;
     background: #9fee5f;
@@ -45,6 +63,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.Referee p {
+    display: block;
 }
 
 .Referee .Actions {

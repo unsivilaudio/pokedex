@@ -1,7 +1,9 @@
 import React from 'react';
 
 import PokeCard from './Pokecard';
+import ResultList from './ResultList';
 import Button from './ui/Button';
+import Modal from './ui/Modal';
 import classes from '../assets/stylesheets/pokegame.module.css';
 
 class PokeGame extends React.Component {
@@ -9,6 +11,8 @@ class PokeGame extends React.Component {
         commentary: null,
         round: 1,
         gamePlaying: true,
+        gameWinner: null,
+        modalShow: false,
         attacking: true,
         enemies: this.props.enemies,
         heroes: this.props.heroes,
@@ -25,71 +29,50 @@ class PokeGame extends React.Component {
         const hero = this.rollAttack('heroes');
         const enemy = this.rollAttack('enemies');
         const chance = Math.random();
-        const round = this.state.round + 1;
-        const attacking = !this.state.attacking;
-        if (this.state.attacking) {
-            if (
-                (chance > 0.5 &&
-                    hero.base_experience > enemy.base_experience) ||
-                chance > 0.8
-            ) {
-                this.setState(prevState => {
-                    const commentary = `${hero.name} HITS ${enemy.name}`;
-                    const enemies = this.state.enemies.map(el => {
-                        if (el.id === enemy.id) el.disabled = true;
-                        return el;
-                    });
+        const overwhelm = this.state.attacking
+            ? hero.base_experience > enemy.base_experience
+            : enemy.base_experience > hero.base_experience;
+        const defenders = !this.state.attacking ? 'heroes' : 'enemies';
+        const defendant = !this.state.attacking ? hero : enemy;
+        const commentary = this.state.attacking
+            ? `${hero.name} %ACTION% ${enemy.name}`
+            : `${enemy.name} %ACTION% ${hero.name}`;
 
-                    return {
-                        ...prevState,
-                        commentary,
-                        enemies,
-                        round,
-                        attacking,
-                    };
-                });
-            } else {
-                this.setState(prevState => {
-                    const commentary = `${hero.name} MISSES ${enemy.name}`;
-                    return {
-                        ...prevState,
-                        commentary,
-                        round,
-                        attacking,
-                    };
-                });
+        let updateState = {};
+        updateState.round = this.state.round + 1;
+        updateState.attacking = !this.state.attacking;
+
+        if (chance > 0.8 || (chance > 0.3 && overwhelm)) {
+            const deaths = [];
+            updateState.commentary = commentary.replace('%ACTION%', 'HITS');
+            updateState[defenders] = this.state[defenders].map(el => {
+                if (el.id === defendant.id) el.disabled = true;
+                deaths.push(el.disabled);
+                return el;
+            });
+            if (deaths.every(el => el === true)) {
+                updateState.gamePlaying = false;
+                updateState.modalShow = true;
+                updateState.gameWinner =
+                    defenders === 'heroes' ? 'enemies' : 'heroes';
             }
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    ...updateState,
+                };
+            });
         } else {
-            if (
-                (chance > 0.5 &&
-                    hero.base_experience < enemy.base_experience) ||
-                chance > 0.8
-            ) {
-                this.setState(prevState => {
-                    const commentary = `${enemy.name} HITS ${hero.name}`;
-                    const heroes = this.state.heroes.map(el => {
-                        if (el.id === hero.id) el.disabled = true;
-                        return el;
-                    });
-                    return {
-                        ...prevState,
-                        commentary,
-                        heroes,
-                        round,
-                        attacking,
-                    };
-                });
-            } else {
-                this.setState(prevState => {
-                    const commentary = `${enemy.name} MISSES ${hero.name}`;
-                    return {
-                        ...prevState,
-                        commentary,
-                        round,
-                        attacking,
-                    };
-                });
-            }
+            this.setState(prevState => {
+                updateState.commentary = commentary.replace(
+                    '%ACTION%',
+                    'MISSES'
+                );
+                return {
+                    ...prevState,
+                    ...updateState,
+                };
+            });
         }
     };
 
@@ -108,49 +91,71 @@ class PokeGame extends React.Component {
         });
     };
 
+    handleCloseModal = () => {
+        this.setState(prevState => ({ ...prevState, modalShow: false }));
+    };
+
     render() {
         return (
-            <div className={classes.PokeGame}>
-                <h1>The PokeDex Game Has Begun</h1>
-                <div className={classes.Row}>
-                    <div className={classes.Heroes}>
-                        <h3>
-                            Your Heroes!
-                            <span>{this.state.attacking ? '*' : null}</span>
-                        </h3>
-                        <div className={classes.Cards}>
-                            {this.renderCards(this.state.heroes)}
+            <>
+                <Modal
+                    show={this.state.modalShow}
+                    clicked={this.handleCloseModal}>
+                    {this.state.gameWinner ? (
+                        <ResultList
+                            reset={this.props.resetGame}
+                            victor={this.state.gameWinner}
+                            winners={this.state[this.state.gameWinner]}
+                        />
+                    ) : null}
+                </Modal>
+                <div className={classes.PokeGame}>
+                    <h1>The PokeDex Game Has Begun</h1>
+                    <div className={classes.Row}>
+                        <div className={classes.Heroes}>
+                            <h3>
+                                Your Heroes!
+                                <span>
+                                    {this.state.attacking ? 'ATTACK' : 'DEFEND'}
+                                </span>
+                            </h3>
+                            <div className={classes.Cards}>
+                                {this.renderCards(this.state.heroes)}
+                            </div>
                         </div>
-                    </div>
-                    <div className={classes.Referee}>
-                        <p>
-                            {this.state.commentary
-                                ? this.state.commentary
-                                : null}
-                        </p>
-                        <h2>Round {this.state.round}</h2>
-                        <div className={classes.Actions}>
-                            <Button
-                                btnStyle='danger'
-                                clicked={this.battleRound}>
-                                Fight!
-                            </Button>
-                            <Button clicked={this.props.resetGame}>
-                                Start Over
-                            </Button>
+                        <div className={classes.Referee}>
+                            <p>
+                                {this.state.commentary
+                                    ? this.state.commentary
+                                    : null}
+                            </p>
+                            <h2>Round {this.state.round}</h2>
+                            <div className={classes.Actions}>
+                                <Button
+                                    btnStyle='danger'
+                                    clicked={this.battleRound}
+                                    disabled={!this.state.gamePlaying}>
+                                    Fight!
+                                </Button>
+                                <Button clicked={this.props.resetGame}>
+                                    Start Over
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                    <div className={classes.Enemies}>
-                        <h3>
-                            Your Enemies
-                            <span>{!this.state.attacking ? '*' : null}</span>
-                        </h3>
-                        <div className={classes.Cards}>
-                            {this.renderCards(this.state.enemies)}
+                        <div className={classes.Enemies}>
+                            <h3>
+                                Your Enemies
+                                <span>
+                                    {this.state.attacking ? 'DEFEND' : 'ATTACK'}
+                                </span>
+                            </h3>
+                            <div className={classes.Cards}>
+                                {this.renderCards(this.state.enemies)}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

@@ -14,12 +14,14 @@ const button = props => {
         default:
             styles.push(classes.Primary);
     }
+    if (props.disabled) styles.push(classes.Disabled);
 
     return (
         <button
             type={props.btnType || 'button'}
             className={styles.join(' ')}
-            onClick={props.clicked || null}>
+            onClick={props.clicked || null}
+            disabled={props.disabled}>
             {props.children}
         </button>
     );

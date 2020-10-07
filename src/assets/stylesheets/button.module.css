@@ -20,6 +20,16 @@
     box-shadow: none;
 }
 
+.Button.Disabled:hover,
+.Button.Disabled {
+    position: relative;
+    cursor: not-allowed;
+    background: #aaa;
+    color: #ccc;
+    box-shadow: 0 2px 3px 2px #777;
+    transform: translate(0);
+}
+
 .Primary {
     color: #eee;
     background: linear-gradient(to right, #2992c7, #1da6c2);
