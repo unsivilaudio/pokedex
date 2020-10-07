@@ -6,6 +6,7 @@ const pokeCard = props => {
     const styles = [classes.PokeCard];
     if (props.selected) styles.push(classes.Selected);
     if (props.enemied) styles.push(classes.Opponent);
+    if (props.disabled) styles.push(classes.Disabled);
 
     return (
         <div className={styles.join(' ')} onClick={props.clicked}>

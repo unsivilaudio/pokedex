@@ -4,6 +4,7 @@ import Modal from '../components/ui/Modal';
 import PokeCard from '../components/Pokecard';
 import HeroList from '../components/HeroList';
 import classes from '../assets/stylesheets/pokedex.module.css';
+import PokeGame from '../components/PokeGame';
 
 const pokeData = [
     { id: 4, name: 'Charmander', type: 'fire', base_experience: 62 },
@@ -20,7 +21,7 @@ const BASE_URL = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail';
 
 class Pokedex extends React.Component {
     state = {
-        heros: [],
+        heroes: [],
         enemies: [],
         modalShow: false,
         gameStart: false,
@@ -28,14 +29,14 @@ class Pokedex extends React.Component {
 
     selectHero = async id => {
         if (
-            this.state.heros.length < 4 &&
+            this.state.heroes.length < 4 &&
             !this.state.gameStart &&
-            !this.state.heros.includes(id) &&
+            !this.state.heroes.includes(id) &&
             !this.state.enemies.includes(id)
         ) {
-            await this.setState(prevState => prevState.heros.push(id));
+            await this.setState(prevState => prevState.heroes.push(id));
             this.selectEnemies(this.randomRoll());
-            if (this.state.heros.length === 4) {
+            if (this.state.heroes.length === 4) {
                 this.setState(prevState => {
                     return { ...prevState, modalShow: true };
                 });
@@ -45,8 +46,8 @@ class Pokedex extends React.Component {
 
     selectEnemies = async id => {
         if (
-            this.state.heros.length <= 4 &&
-            !this.state.heros.includes(id) &&
+            this.state.heroes.length <= 4 &&
+            !this.state.heroes.includes(id) &&
             !this.state.enemies.includes(id)
         ) {
             await this.setState(prevState => {
@@ -58,10 +59,24 @@ class Pokedex extends React.Component {
         }
     };
 
+    getBattleData = ids => {
+        return pokeData
+            .filter(el => ids.includes(el.id))
+            .map(item => {
+                const imgId = (item.id + 1000)
+                    .toString()
+                    .split('')
+                    .splice(1)
+                    .join('');
+                const img = `${BASE_URL}/${imgId}.png`;
+                return { ...item, img, disabled: false };
+            });
+    };
+
     randomRoll = () => {
         const data = pokeData.filter(
             el =>
-                !this.state.heros.includes(el.id) &&
+                !this.state.heroes.includes(el.id) &&
                 !this.state.enemies.includes(el.id)
         );
         let roll = 0;
@@ -80,11 +95,14 @@ class Pokedex extends React.Component {
                 .splice(1)
                 .join('');
             const imgSrc = `${BASE_URL}/${imgId}.png`;
-            const isSelect = this.state.heros.includes(el.id);
+            const isSelect = this.state.heroes.includes(el.id);
+            const isEnemy = this.state.enemies.includes(el.id);
+            const disabled = isSelect || isEnemy;
             return (
                 <PokeCard
+                    disabled={disabled}
                     selected={isSelect}
-                    enemied={this.state.enemies.includes(el.id)}
+                    enemied={isEnemy}
                     clicked={() => this.selectHero(el.id)}
                     key={el.id}
                     title={el.name}
@@ -104,14 +122,37 @@ class Pokedex extends React.Component {
             () =>
                 this.setState(prevState => ({
                     ...prevState,
-                    heros: [],
+                    heroes: [],
                     enemies: [],
+                    gameStart: false,
                 })),
             500
         );
     };
 
+    handleContinueHero = () => {
+        this.setState(prevState => {
+            return { ...prevState, gameStart: true, modalShow: false };
+        });
+    };
+
     render() {
+        let container = (
+            <div className={classes.Pokedex}>
+                <h1 className={classes.Header}>Choose your heroes</h1>
+                <div className={classes.CardList}>{this.renderPokeList()}</div>
+            </div>
+        );
+
+        if (this.state.gameStart)
+            container = (
+                <PokeGame
+                    enemies={this.getBattleData(this.state.enemies)}
+                    heroes={this.getBattleData(this.state.heroes)}
+                    resetGame={this.handleResetHero}
+                />
+            );
+
         return (
             <>
                 <Modal
@@ -119,19 +160,13 @@ class Pokedex extends React.Component {
                     clicked={this.handleResetHero}>
                     <HeroList
                         data={pokeData}
-                        selected={this.state.heros}
+                        selected={this.state.heroes}
                         baseURL={BASE_URL}
                         cancelled={this.handleResetHero}
-                        continued={null}
+                        continued={this.handleContinueHero}
                     />
                 </Modal>
-
-                <div className={classes.Pokedex}>
-                    <h1 className={classes.Header}>Choose your heroes</h1>
-                    <div className={classes.CardList}>
-                        {this.renderPokeList()}
-                    </div>
-                </div>
+                {container}
             </>
         );
     }

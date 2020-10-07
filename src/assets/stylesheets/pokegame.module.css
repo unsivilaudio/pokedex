@@ -1,0 +1,61 @@
+.PokeGame {
+    text-align: center;
+    background: #eee;
+    border-radius: 1.2rem;
+    margin: 2rem;
+    padding: 2rem;
+}
+
+.PokeGame h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgb(209, 107, 107);
+    letter-spacing: 0.7rem;
+    margin-right: -0.7rem;
+    padding: 1.2rem 0;
+}
+
+.Row {
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+}
+
+.Row div {
+    padding: 0.7rem 1.5rem;
+}
+
+.Heroes {
+    flex: 2;
+    background: #9fee5f;
+}
+
+.Enemies {
+    flex: 2;
+    background: #ef5933;
+}
+
+.Referee {
+    flex: 1;
+    text-align: center;
+    font-size: 3rem;
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Referee .Actions {
+    justify-self: stretch;
+}
+
+.Cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Cards > * {
+    flex-basis: 40%;
+}
