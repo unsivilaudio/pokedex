@@ -2,7 +2,7 @@ import React from 'react';
 
 import PokeCard from './Pokecard';
 import Button from './ui/Button';
-import classes from '../assets/stylesheets/herolist.module.css';
+import classes from '../assets/stylesheets/herolist.module.scss';
 
 const heroList = props => {
     const renderSelectedHeros = () => {

@@ -1,0 +1,159 @@
+.PokeGame {
+    text-align: center;
+    background: #eee;
+    border-radius: 1.2rem;
+    margin: 2rem;
+    padding: 2rem;
+
+    & h1 {
+        font-size: 3rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 2px rgb(209, 107, 107);
+        letter-spacing: 0.7rem;
+        margin-right: -0.7rem;
+        padding: 1.2rem 0;
+    }
+
+    & .Row {
+        display: flex;
+
+        & div {
+            padding: 0.7rem 1.5rem;
+        }
+
+        & .Heroes,
+        & .Enemies {
+            flex: 2;
+
+            & h3 {
+                position: relative;
+                text-transform: uppercase;
+
+                & span {
+                    position: absolute;
+                    background: #aaa;
+                    color: #eee;
+                    font-size: 1rem;
+                    margin-top: 0.2rem;
+                    margin-left: 0.7rem;
+                    padding: 0.3rem 1.2rem;
+                    border-radius: 1rem;
+                }
+            }
+        }
+
+        & .Heroes {
+            background: #9fee5f;
+        }
+
+        & .Enemies {
+            background: #ef5933;
+        }
+
+        & .Cards {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        & .Referee {
+            flex: 1;
+            text-align: center;
+            font-size: 3rem;
+            font-style: italic;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            & p {
+                display: block;
+            }
+
+            & .Actions {
+                justify-self: center;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .PokeGame {
+        border-radius: none;
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        & h1 {
+            width: 100%;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.3rem;
+            margin-right: -0.3rem;
+            padding: 1rem 0;
+        }
+
+        & .Row {
+            flex-wrap: wrap;
+
+            & div {
+                padding: 0;
+            }
+
+            & .Heroes,
+            & .Enemies {
+                flex: 0 0 50%;
+
+                & h3 {
+                    & span {
+                        display: block;
+                        position: relative;
+                        font-size: 1.5rem;
+                        font-style: italic;
+                        margin: 0 0.8rem;
+                        padding: 0.3rem 0.8rem;
+                        border-radius: 1.5rem;
+                    }
+                }
+
+                & .Cards {
+                    font-size: 1.2rem;
+                }
+            }
+
+            & .Heroes {
+                order: 2;
+                background: #9fee5f;
+            }
+
+            & .Enemies {
+                order: 3;
+                background: #ef5933;
+            }
+
+            & .Referee {
+                flex: 1 0 100%;
+                order: 1;
+                text-align: center;
+                font-size: 2rem;
+                font-style: italic;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+
+                & p {
+                    display: block;
+                }
+
+                & .Actions {
+                    justify-self: center;
+                }
+            }
+        }
+    }
+}

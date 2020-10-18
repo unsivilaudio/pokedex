@@ -3,7 +3,7 @@ import React from 'react';
 import Modal from '../components/ui/Modal';
 import PokeCard from '../components/Pokecard';
 import HeroList from '../components/HeroList';
-import classes from '../assets/stylesheets/pokedex.module.css';
+import classes from '../assets/stylesheets/pokedex.module.scss';
 import PokeGame from '../components/PokeGame';
 
 const pokeData = [

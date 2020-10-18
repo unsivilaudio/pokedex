@@ -4,7 +4,7 @@ import PokeCard from './Pokecard';
 import ResultList from './ResultList';
 import Button from './ui/Button';
 import Modal from './ui/Modal';
-import classes from '../assets/stylesheets/pokegame.module.css';
+import classes from '../assets/stylesheets/pokegame.module.scss';
 
 class PokeGame extends React.Component {
     state = {
