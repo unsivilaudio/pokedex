@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import PokeCard from './Pokecard';
 import Button from './ui/Button';
-import classes from '../assets/stylesheets/resultlist.module.css';
+import classes from '../assets/stylesheets/resultlist.module.scss';
 
 const ResultList = props => {
     const [message, setMessage] = useState(null);

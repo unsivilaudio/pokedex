@@ -1,0 +1,27 @@
+.NavBar {
+    color: #ccc;
+    background: #333;
+    width: 100%;
+    margin-bottom: 2.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .Brand {
+        font-size: 2.75rem;
+        font-weight: 300;
+        padding: 1.2rem 3rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .NavBar {
+        margin-bottom: 0;
+
+        & .Brand {
+            font-size: 2.5rem;
+            padding: 0.5rem 3rem;
+        }
+    }
+}

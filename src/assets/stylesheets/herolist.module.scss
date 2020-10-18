@@ -1,0 +1,56 @@
+.HeroList {
+    font-size: inherit;
+
+    & .Header {
+        color: #eee;
+        padding: 1.2rem 0;
+        background: #555;
+        font-size: 2rem;
+        font-weight: 400;
+        letter-spacing: 1rem;
+        margin-right: -1rem;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    & .Content {
+        padding: 0 2.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-wrap: no-wrap;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    & .Actions {
+        padding: 0 2rem;
+        padding-bottom: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .HeroList {
+        & .Header {
+            padding: 2rem 0;
+            font-size: 3rem;
+        }
+
+        & .Content {
+            padding: 2rem;
+            margin-bottom: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        & .Actions {
+            padding: 0 2rem;
+            padding-bottom: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

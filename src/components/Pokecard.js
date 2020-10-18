@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from '../assets/stylesheets/pokecard.module.css';
+import classes from '../assets/stylesheets/pokecard.module.scss';
 
 const pokeCard = props => {
     const styles = [classes.PokeCard];

@@ -1,0 +1,143 @@
+.ResultList {
+    width: 100%;
+    /* padding: 2rem 5rem; */
+    & h1 {
+        color: #eee;
+        background: #aaa;
+        width: 100%;
+        font-size: 3rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.7rem;
+        margin-right: -0.7rem;
+        padding: 1.2rem 0;
+    }
+
+    & .Content {
+        padding: 1.2rem 3.5rem;
+
+        & .Header {
+            text-align: center;
+            text-transform: uppercase;
+
+            &::before,
+            &::after {
+                display: inline-block;
+                content: '';
+                background: #ccc;
+                height: 1.2rem;
+                width: 35%;
+                margin: 0 1rem;
+                border-radius: 2px;
+            }
+        }
+
+        & .Cards {
+            display: flex;
+            justify-content: center;
+
+            & > * {
+                max-width: 25%;
+            }
+        }
+    }
+
+    .Actions {
+        margin: 0 2.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & p {
+            color: #aaa;
+            font-size: 1.6rem;
+            animation: fadeAway 1s ease-out 3s forwards;
+        }
+    }
+}
+
+@keyframes fadeAway {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .ResultList {
+        height: 100vh;
+        width: 100%;
+        /* padding: 2rem 5rem; */
+        & h1 {
+            color: #eee;
+            background: #aaa;
+            width: 100%;
+            height: 15remrem;
+            font-size: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.7rem;
+            margin-right: -0.7rem;
+            padding: 0.8rem 0;
+        }
+
+        & .Content {
+            height: 70vh;
+            padding: 0.8rem 1.5rem;
+
+            & .Header {
+                text-align: center;
+                text-transform: uppercase;
+
+                &::before,
+                &::after {
+                    display: inline-block;
+                    content: '';
+                    background: #ccc;
+                    height: 1.2rem;
+                    width: 5rem;
+                    margin: 0 1.5rem;
+                    border-radius: 2px;
+                }
+            }
+
+            & .Cards {
+                display: flex;
+                justify-content: center;
+                overflow-x: auto;
+
+                & > * {
+                    max-width: 40%;
+                }
+            }
+        }
+
+        .Actions {
+            margin: 0;
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+
+            & button {
+                order: 2;
+                flex-basis: 40%;
+            }
+
+            & p {
+                flex: 1;
+                order: 3;
+                color: #aaa;
+                font-size: 2rem;
+                animation: fadeAway 1s ease-out 1s forwards;
+
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}

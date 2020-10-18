@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from '../../assets/stylesheets/navbar.module.css';
+import classes from '../../assets/stylesheets/navbar.module.scss';
 
 const navBar = props => {
     return (
